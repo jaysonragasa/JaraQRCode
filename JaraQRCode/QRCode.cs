@@ -14,7 +14,7 @@ using System.Text;
 
 namespace JaraQRCode
 {
-    public class Code
+    public class QRCode
     {
         #region enums
         public enum MODE { ALPHA_NUMERIC, NUMERIC, BYTE };
@@ -56,7 +56,7 @@ namespace JaraQRCode
         #endregion
 
         #region ctor
-        public Code()
+        public QRCode()
         {
             qrcodeErrorCorrect = ERRORCORRECTION.M;
             qrcodeEncodeMode = MODE.BYTE;
@@ -949,7 +949,7 @@ namespace JaraQRCode
                 {
                     for (int j = 0; j < matrix.Length; j++)
                     {
-                        m += matrix[i][j] ? "█" : "░";
+                        m += matrix[j][i] ? "█" : "░";
                     }
                     m += "\n";
                 }
