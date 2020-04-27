@@ -2,6 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>JaraQRCode.NETStandard</RootNamespace>
+    <AssemblyName>JaraQRCode.NETStandard</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>

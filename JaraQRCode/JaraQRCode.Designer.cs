@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace JaraQRCode {
+namespace JaraQRCode.NETStandard {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace JaraQRCode {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("JaraQRCode.JaraQRCode", typeof(JaraQRCode).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("JaraQRCode.NETStandard.JaraQRCode", typeof(JaraQRCode).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

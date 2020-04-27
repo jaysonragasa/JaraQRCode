@@ -967,7 +967,7 @@ namespace JaraQRCode
 
         internal Stream GetResourceFile(string fileName)
         {
-            var res = JaraQRCode.ResourceManager.GetObject(fileName);
+            var res = NETStandard.JaraQRCode.ResourceManager.GetObject(fileName);
 
             return new MemoryStream((byte[])res);
         }
