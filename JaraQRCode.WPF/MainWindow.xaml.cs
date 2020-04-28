@@ -40,8 +40,11 @@ namespace JaraQRCode.WPF
             //QRCodeForegroundColor = Color.Black,              // leave it default (default: Black)
             //QRCodeEncodeMode = QRCode.MODE.BYTE,              // leave it default (default: QRCode.MODE.BYTE)
             //QRCodeErrorCorrect = QRCode.ERRORCORRECTION.M,    // leave it default (default: QRCode.ERRORCORRECTION.M)
-            //QRCodeScale = 4,                                  // leave it default (4)
-            QRCodeVersion = 2                                  // leave it default (0)
+            //QRCodeScale = 4,                                  // leave it default (default: 4)
+
+            // leave it default (default: 2 which has a maximum char of 28)
+            // values can be upto 40. The higher the value, the higher the max character, the denser the blocks
+            QRCodeVersion = 2
         };
 
         public MainWindow()
@@ -55,7 +58,7 @@ namespace JaraQRCode.WPF
         {
             var byt = qr.Generate(txText.Text);
 
-            if (byt != null)
+            if (byt != null && byt.Length > 1)
             {
                 imgQRCode.Source = Convert(byt);
                 txQRstring.Text = qr.GenerateQRCodeString(txText.Text, Encoding.UTF8);

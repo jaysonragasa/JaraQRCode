@@ -36,9 +36,7 @@ namespace JaraQRCode
 
         #region props
         public ERRORCORRECTION QRCodeErrorCorrect { get; set; } = ERRORCORRECTION.M;
-
         public MODE QRCodeEncodeMode { get; set; } = MODE.BYTE;
-
         public int QRCodeVersion
         {
             get
@@ -53,7 +51,6 @@ namespace JaraQRCode
                 }
             }
         }
-
         public int QRCodeScale { get; set; } = 4;
         public Color QRCodeBackgroundColor { get; set; } = Color.White;
         public Color QRCodeForegroundColor { get; set; } = Color.Black;
@@ -62,13 +59,6 @@ namespace JaraQRCode
         #region ctor
         public QRCode()
         {
-            //QRCodeBackgroundColor = Color.White;
-            //QRCodeForegroundColor = Color.Black;
-            //QRCodeErrorCorrect = ERRORCORRECTION.M;
-            //QRCodeEncodeMode = MODE.BYTE;
-            //QRCodeVersion = 0;
-            //QRCodeScale = 4;
-
             _qrcodeStructureappendN = 0;
             _qrcodeStructureappendM = 0;
             _qrcodeStructureappendParity = 0;
@@ -107,7 +97,6 @@ namespace JaraQRCode
                 dataCounter = 4;
             }
             dataBits[dataCounter] = 4;
-
 
             int[] codewordNumPlus;
             int codewordNumCounterValue;
@@ -313,6 +302,7 @@ namespace JaraQRCode
             {
                 maxDataBits = maxDataBitsArray[ec][QRCodeVersion];
             }
+
             totalDataBits += codewordNumPlus[QRCodeVersion];
             dataBits[codewordNumCounterValue] = (sbyte)(dataBits[codewordNumCounterValue] + codewordNumPlus[QRCodeVersion]);
 
@@ -371,6 +361,11 @@ namespace JaraQRCode
             sbyte[] formatInformationY1 = new sbyte[] { 8, 8, 8, 8, 8, 8, 8, 8, 7, 5, 4, 3, 2, 1, 0 };
 
             int maxDataCodewords = maxDataBits >> 3;
+
+            if(dataLength >= maxDataCodewords - 1)
+            {
+                return new bool[][] { new bool[1] };
+            }
 
             /* read frame data  */
 
@@ -880,62 +875,65 @@ namespace JaraQRCode
         }
         #endregion
 
-        public byte[] Generate(String content, Encoding encoding)
+        public byte[] Generate(string content, Encoding encoding)
         {
             bool[][] matrix = CalQrcode(encoding.GetBytes(content));
+            byte[] returnBuffer = new byte[0];
 
-            Image img = new Bitmap(
-                (matrix.Length) * QRCodeScale,
-                (matrix.Length) * QRCodeScale,
-                PixelFormat.Format32bppArgb);
-
-            Graphics gfx = Graphics.FromImage(img);
-            gfx.Clear(QRCodeBackgroundColor);
-
-            var color = QRCodeForegroundColor;
-            var a = color.A + 1;
-            var col = (color.A << 24)
-               | ((byte)((color.R * a) >> 8) << 16)
-               | ((byte)((color.G * a) >> 8) << 8)
-               | ((byte)((color.B * a) >> 8));
-
-
-            for (int y = 0; y < matrix.Length; y++)
+            if (matrix.Length > 1)
             {
-                for (int x = 0; x < matrix.Length; x++)
-                {
-                    if (matrix[x][y])
-                    {
-                        //gfx.DrawRectangle(new Pen(
-                        //    new SolidBrush(
-                        //        Color.FromArgb(col)), 
-                        //        0.1f), 
-                        //    x * QRCodeScale, 
-                        //    y * QRCodeScale, 
-                        //    QRCodeScale, 
-                        //    QRCodeScale
-                        //);
+                Image img = new Bitmap(
+                    (matrix.Length) * QRCodeScale,
+                    (matrix.Length) * QRCodeScale,
+                    PixelFormat.Format32bppArgb);
 
-                        gfx.FillRectangle(new SolidBrush(
-                                Color.FromArgb(col)),
-                                x * QRCodeScale,
-                                y * QRCodeScale,
-                                QRCodeScale,
-                                QRCodeScale
-                        );
+                Graphics gfx = Graphics.FromImage(img);
+                gfx.Clear(QRCodeBackgroundColor);
+
+                var color = QRCodeForegroundColor;
+                var a = color.A + 1;
+                var col = (color.A << 24)
+                   | ((byte)((color.R * a) >> 8) << 16)
+                   | ((byte)((color.G * a) >> 8) << 8)
+                   | ((byte)((color.B * a) >> 8));
+
+                for (int y = 0; y < matrix.Length; y++)
+                {
+                    for (int x = 0; x < matrix.Length; x++)
+                    {
+                        if (matrix[x][y])
+                        {
+                            //gfx.DrawRectangle(new Pen(
+                            //    new SolidBrush(
+                            //        Color.FromArgb(col)), 
+                            //        0.1f), 
+                            //    x * QRCodeScale, 
+                            //    y * QRCodeScale, 
+                            //    QRCodeScale, 
+                            //    QRCodeScale
+                            //);
+
+                            gfx.FillRectangle(new SolidBrush(
+                                    Color.FromArgb(col)),
+                                    x * QRCodeScale,
+                                    y * QRCodeScale,
+                                    QRCodeScale,
+                                    QRCodeScale
+                            );
+                        }
                     }
                 }
+
+                MemoryStream ms = new MemoryStream();
+                img.Save(ms, ImageFormat.Png);
+                returnBuffer = ms.GetBuffer();
+
+                gfx.Dispose();
             }
-
-            MemoryStream ms = new MemoryStream();
-            img.Save(ms, ImageFormat.Png);
-            byte[] buf = ms.GetBuffer();
-
-            gfx.Dispose();
 
             //return (Bitmap)img;
 
-            return buf;
+            return returnBuffer;
         }
 
         public string GenerateQRCodeString(string content, Encoding encoding)
