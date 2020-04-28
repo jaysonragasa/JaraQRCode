@@ -1,4 +1,4 @@
-![](https://raw.githubusercontent.com/jaysonragasa/JaraQRCode/master/JaraQRCode.WPF/2020-04-28_0429.png)
+![](https://raw.githubusercontent.com/jaysonragasa/JaraQRCode/master/JaraQRCode.WPF/prev.gif)
 # Jara QRCode
 QRCode Generator - A .NET Standard version of Hyun.QRCode originally written for Windows Phone.
 
