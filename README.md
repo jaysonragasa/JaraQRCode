@@ -7,7 +7,16 @@ Unfortunately, the original source cannot be found anymore anywhere in Google.
 
 # Usage
 ```csharp
-JaraQRCode.QRCode qr = new QRCode();
+JaraQRCode.QRCode qr = new QRCode()
+{
+	//QRCodeBackgroundColor = Color.Black,              // leave it default (default: Black)
+	//QRCodeForegroundColor = Color.White,              // leave it default (default: White)
+	//QRCodeEncodeMode = QRCode.MODE.BYTE,              // leave it default (defalt: QRCode.MODE.BYTE)
+	//QRCodeErrorCorrect = QRCode.ERRORCORRECTION.M,    // leave it default (default: QRCode.ERRORCORRECTION.M)
+	//QRCodeScale = 4,                                  // leave it default (4)
+	//QRCodeVersion = 0                                 // leave it default (0)
+};
+
 var byt = qr.Generate(txText.Text);
 if (byt != null)
 {
