@@ -10,12 +10,15 @@ Unfortunately, the original source cannot be found anymore anywhere in Google.
 ```csharp
 JaraQRCode.QRCode qr = new QRCode()
 {
-	//QRCodeBackgroundColor = Color.Black,              // leave it default (default: Black)
-	//QRCodeForegroundColor = Color.White,              // leave it default (default: White)
-	//QRCodeEncodeMode = QRCode.MODE.BYTE,              // leave it default (defalt: QRCode.MODE.BYTE)
+	//QRCodeBackgroundColor = Color.White,              // leave it default (default: White)
+	//QRCodeForegroundColor = Color.Black,              // leave it default (default: Black)
+	//QRCodeEncodeMode = QRCode.MODE.BYTE,              // leave it default (default: QRCode.MODE.BYTE)
 	//QRCodeErrorCorrect = QRCode.ERRORCORRECTION.M,    // leave it default (default: QRCode.ERRORCORRECTION.M)
-	//QRCodeScale = 4,                                  // leave it default (4)
-	//QRCodeVersion = 0                                 // leave it default (0)
+	//QRCodeScale = 4,                                  // leave it default (default: 4)
+
+	// leave it default (default: 2 which has a maximum char of 28)
+	// values can be upto 40. The higher the value, the higher the max character, the denser the blocks
+	QRCodeVersion = 2
 };
 
 var byt = qr.Generate(txText.Text);
