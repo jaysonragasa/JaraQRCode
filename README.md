@@ -17,7 +17,7 @@ JaraQRCode.QRCode qr = new QRCode()
 	//QRCodeScale = 4,                                  // leave it default (default: 4)
 
 	// leave it default (default: 2 which has a maximum char of 28)
-	// values can be upto 40. The higher the value, the higher the max character, the denser the blocks
+	// values can be upto 40. The higher the value, the more char can handle and the blocks will be denser
 	QRCodeVersion = 2
 };
 
