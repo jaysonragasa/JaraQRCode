@@ -100,9 +100,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\JaraQRCode\JaraQRCode.csproj">
+    <ProjectReference Include="..\JaraQRCode\JaraQRCode.NETStandard.csproj">
       <Project>{5484bb6d-10f5-433b-ac89-dc95aaaab66d}</Project>
-      <Name>JaraQRCode</Name>
+      <Name>JaraQRCode.NETStandard</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

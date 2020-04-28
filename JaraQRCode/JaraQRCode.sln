@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30021.99
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JaraQRCode", "JaraQRCode.csproj", "{5484BB6D-10F5-433B-AC89-DC95AAAAB66D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JaraQRCode.NETStandard", "JaraQRCode.NETStandard.csproj", "{5484BB6D-10F5-433B-AC89-DC95AAAAB66D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Platforms", "Platforms", "{38F2D6F1-6BE0-415B-8D5B-2E32FB606E25}"
 EndProject
