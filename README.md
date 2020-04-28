@@ -1,7 +1,6 @@
 ![](https://raw.githubusercontent.com/jaysonragasa/JaraQRCode/master/JaraQRCode.WPF/prev.gif)
 # Jara QRCode
 QRCode Generator - A .NET Standard version of Hyun.QRCode originally written for Windows Phone.  
-Supports upto 15 characters max.
 
 # Hyun.QRCode
 Unfortunately, the original source cannot be found anymore anywhere in Google.
