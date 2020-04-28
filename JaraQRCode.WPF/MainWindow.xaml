@@ -7,7 +7,7 @@
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <StackPanel Margin="10" HorizontalAlignment="Left">
-            <TextBox x:Name="txText" MaxLength="14" />
+            <TextBox x:Name="txText" />
             <TextBlock Text="" />
             <StackPanel Orientation="Horizontal">
                 <StackPanel>

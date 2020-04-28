@@ -36,12 +36,12 @@ namespace JaraQRCode.WPF
     {
         JaraQRCode.QRCode qr = new QRCode()
         {
-            //QRCodeBackgroundColor = Color.Black,              // leave it default (default: Black)
-            //QRCodeForegroundColor = Color.White,              // leave it default (default: White)
+            //QRCodeBackgroundColor = Color.White,              // leave it default (default: White)
+            //QRCodeForegroundColor = Color.Black,              // leave it default (default: Black)
             //QRCodeEncodeMode = QRCode.MODE.BYTE,              // leave it default (default: QRCode.MODE.BYTE)
             //QRCodeErrorCorrect = QRCode.ERRORCORRECTION.M,    // leave it default (default: QRCode.ERRORCORRECTION.M)
             //QRCodeScale = 4,                                  // leave it default (4)
-            //QRCodeVersion = 0                                 // leave it default (0)
+            QRCodeVersion = 2                                  // leave it default (0)
         };
 
         public MainWindow()

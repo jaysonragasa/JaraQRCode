@@ -24,12 +24,14 @@ namespace JaraQRCode
         #region fields
         internal int _qrCodeVersion;
 
-        internal int qrcodeStructureappendN;
-        internal int qrcodeStructureappendM;
-        internal int qrcodeStructureappendParity;
+        internal int _qrcodeStructureappendN;
+        internal int _qrcodeStructureappendM;
+        internal int _qrcodeStructureappendParity;
 
-        const int maxQrCodeVersionAvailable = 40 /*if you want to limit the version */;
-        const int QrCodeVersionStep = 1;/*if version == 0, we calculate the best version using the step*/
+        // if you want to limit the version
+        const int _maxQrCodeVersionAvailable = 40;
+        // if version == 0, we calculate the best version using the step
+        const int _qrCodeVersionStep = 1;
         #endregion
 
         #region props
@@ -45,33 +47,31 @@ namespace JaraQRCode
             }
             set
             {
-                if (value >= 0 && value <= 40)
+                if (value >= 0 && value <= _maxQrCodeVersionAvailable)
                 {
                     _qrCodeVersion = value;
                 }
             }
         }
 
-        public int QRCodeScale { get; set; }
-        public Color QRCodeBackgroundColor { get; set; }
-        public Color QRCodeForegroundColor { get; set; }
+        public int QRCodeScale { get; set; } = 4;
+        public Color QRCodeBackgroundColor { get; set; } = Color.White;
+        public Color QRCodeForegroundColor { get; set; } = Color.Black;
         #endregion
 
         #region ctor
         public QRCode()
         {
-            QRCodeErrorCorrect = ERRORCORRECTION.M;
-            QRCodeEncodeMode = MODE.BYTE;
-            QRCodeVersion = 0;
+            //QRCodeBackgroundColor = Color.White;
+            //QRCodeForegroundColor = Color.Black;
+            //QRCodeErrorCorrect = ERRORCORRECTION.M;
+            //QRCodeEncodeMode = MODE.BYTE;
+            //QRCodeVersion = 0;
+            //QRCodeScale = 4;
 
-            qrcodeStructureappendN = 0;
-            qrcodeStructureappendM = 0;
-            qrcodeStructureappendParity = 0;
-
-            QRCodeScale = 4;
-
-            QRCodeBackgroundColor = Color.White;
-            QRCodeForegroundColor = Color.Black;
+            _qrcodeStructureappendN = 0;
+            _qrcodeStructureappendM = 0;
+            _qrcodeStructureappendParity = 0;
         }
         #endregion
 
@@ -90,18 +90,18 @@ namespace JaraQRCode
                 return new bool[][] { new bool[1] };
             }
 
-            if (qrcodeStructureappendN > 1)
+            if (_qrcodeStructureappendN > 1)
             {
                 dataValue[0] = 3;
                 dataBits[0] = 4;
 
-                dataValue[1] = qrcodeStructureappendM - 1;
+                dataValue[1] = _qrcodeStructureappendM - 1;
                 dataBits[1] = 4;
 
-                dataValue[2] = qrcodeStructureappendN - 1;
+                dataValue[2] = _qrcodeStructureappendN - 1;
                 dataBits[2] = 4;
 
-                dataValue[3] = qrcodeStructureappendParity;
+                dataValue[3] = _qrcodeStructureappendParity;
                 dataBits[3] = 8;
 
                 dataCounter = 4;
@@ -299,14 +299,14 @@ namespace JaraQRCode
             if (QRCodeVersion == 0)
             {
                 QRCodeVersion = 1;
-                for (int i = 1; i <= maxQrCodeVersionAvailable; i += QrCodeVersionStep)
+                for (int i = 1; i <= _maxQrCodeVersionAvailable; i += _qrCodeVersionStep)
                 {
                     if ((maxDataBitsArray[ec][i]) >= totalDataBits + codewordNumPlus[QRCodeVersion])
                     {
                         maxDataBits = maxDataBitsArray[ec][i];
                         break;
                     }
-                    QRCodeVersion += QrCodeVersionStep;
+                    QRCodeVersion += _qrCodeVersionStep;
                 }
             }
             else
