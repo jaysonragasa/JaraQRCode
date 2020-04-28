@@ -22,9 +22,8 @@ namespace JaraQRCode
         #endregion
 
         #region fields
-        internal ERRORCORRECTION qrcodeErrorCorrect;
-        internal MODE qrcodeEncodeMode;
-        internal int qrcodeVersion;
+        internal int _qrCodeVersion;
+
         internal int qrcodeStructureappendN;
         internal int qrcodeStructureappendM;
         internal int qrcodeStructureappendParity;
@@ -34,22 +33,25 @@ namespace JaraQRCode
         #endregion
 
         #region props
-        public ERRORCORRECTION QRCodeErrorCorrect { get; set; }
-        public MODE QRCodeEncodeMode { get; set; }
+        public ERRORCORRECTION QRCodeErrorCorrect { get; set; } = ERRORCORRECTION.M;
+
+        public MODE QRCodeEncodeMode { get; set; } = MODE.BYTE;
+
         public int QRCodeVersion
         {
             get
             {
-                return qrcodeVersion;
+                return _qrCodeVersion;
             }
             set
             {
                 if (value >= 0 && value <= 40)
                 {
-                    qrcodeVersion = value;
+                    _qrCodeVersion = value;
                 }
             }
         }
+
         public int QRCodeScale { get; set; }
         public Color QRCodeBackgroundColor { get; set; }
         public Color QRCodeForegroundColor { get; set; }
@@ -58,9 +60,9 @@ namespace JaraQRCode
         #region ctor
         public QRCode()
         {
-            qrcodeErrorCorrect = ERRORCORRECTION.M;
-            qrcodeEncodeMode = MODE.BYTE;
-            qrcodeVersion = 0;
+            QRCodeErrorCorrect = ERRORCORRECTION.M;
+            QRCodeEncodeMode = MODE.BYTE;
+            QRCodeVersion = 0;
 
             qrcodeStructureappendN = 0;
             qrcodeStructureappendM = 0;
@@ -110,7 +112,7 @@ namespace JaraQRCode
             int[] codewordNumPlus;
             int codewordNumCounterValue;
 
-            switch (qrcodeEncodeMode)
+            switch (QRCodeEncodeMode)
             {
                 case MODE.ALPHA_NUMERIC:
 
@@ -268,7 +270,7 @@ namespace JaraQRCode
             }
 
             int ec;
-            switch (qrcodeErrorCorrect)
+            switch (QRCodeErrorCorrect)
             {
 
                 case ERRORCORRECTION.L:
@@ -294,36 +296,36 @@ namespace JaraQRCode
 
             int maxDataBits = 0;
 
-            if (qrcodeVersion == 0)
+            if (QRCodeVersion == 0)
             {
-                qrcodeVersion = 1;
+                QRCodeVersion = 1;
                 for (int i = 1; i <= maxQrCodeVersionAvailable; i += QrCodeVersionStep)
                 {
-                    if ((maxDataBitsArray[ec][i]) >= totalDataBits + codewordNumPlus[qrcodeVersion])
+                    if ((maxDataBitsArray[ec][i]) >= totalDataBits + codewordNumPlus[QRCodeVersion])
                     {
                         maxDataBits = maxDataBitsArray[ec][i];
                         break;
                     }
-                    qrcodeVersion += QrCodeVersionStep;
+                    QRCodeVersion += QrCodeVersionStep;
                 }
             }
             else
             {
-                maxDataBits = maxDataBitsArray[ec][qrcodeVersion];
+                maxDataBits = maxDataBitsArray[ec][QRCodeVersion];
             }
-            totalDataBits += codewordNumPlus[qrcodeVersion];
-            dataBits[codewordNumCounterValue] = (sbyte)(dataBits[codewordNumCounterValue] + codewordNumPlus[qrcodeVersion]);
+            totalDataBits += codewordNumPlus[QRCodeVersion];
+            dataBits[codewordNumCounterValue] = (sbyte)(dataBits[codewordNumCounterValue] + codewordNumPlus[QRCodeVersion]);
 
             int[] maxCodewordsArray = new int[] { 0, 26, 44, 70, 100, 134, 172, 196, 242, 292, 346, 404, 466, 532, 581, 655, 733, 815, 901, 991, 1085, 1156, 1258, 1364, 1474, 1588, 1706, 1828, 1921, 2051, 2185, 2323, 2465, 2611, 2761, 2876, 3034, 3196, 3362, 3532, 3706 };
 
-            int maxCodewords = maxCodewordsArray[qrcodeVersion];
-            int maxModules1side = 17 + (qrcodeVersion << 2);
+            int maxCodewords = maxCodewordsArray[QRCodeVersion];
+            int maxModules1side = 17 + (QRCodeVersion << 2);
 
             int[] matrixRemainBit = new int[] { 0, 0, 7, 7, 7, 7, 7, 0, 0, 0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 3, 3, 3, 3, 3, 3, 3, 0, 0, 0, 0, 0, 0 };
 
             /*read version ECC data file*/
 
-            int byte_num = matrixRemainBit[qrcodeVersion] + (maxCodewords << 3);
+            int byte_num = matrixRemainBit[QRCodeVersion] + (maxCodewords << 3);
 
             sbyte[] matrixX = new sbyte[byte_num];
             sbyte[] matrixY = new sbyte[byte_num];
@@ -335,7 +337,7 @@ namespace JaraQRCode
 
             try
             {
-                String fileName = "qrv" + Convert.ToString(qrcodeVersion) + "_" + Convert.ToString(ec);
+                String fileName = "qrv" + Convert.ToString(QRCodeVersion) + "_" + Convert.ToString(ec);
                 Stream stream = GetResourceFile(fileName);
 
                 Read(stream, matrixX, 0, matrixX.Length);
@@ -372,13 +374,13 @@ namespace JaraQRCode
 
             /* read frame data  */
 
-            int modules1Side = 4 * qrcodeVersion + 17;
+            int modules1Side = 4 * QRCodeVersion + 17;
             int matrixTotalBits = modules1Side * modules1Side;
             sbyte[] frameData = new sbyte[matrixTotalBits + modules1Side];
 
             try
             {
-                Stream stream = GetResourceFile("qrvfr" + Convert.ToString(qrcodeVersion));
+                Stream stream = GetResourceFile("qrvfr" + Convert.ToString(QRCodeVersion));
                 Read(stream, frameData, 0, frameData.Length);
                 stream.Close();
             }
@@ -443,14 +445,14 @@ namespace JaraQRCode
                 }
             }
 
-            for (int matrixRemain = matrixRemainBit[qrcodeVersion]; matrixRemain > 0; matrixRemain--)
+            for (int matrixRemain = matrixRemainBit[QRCodeVersion]; matrixRemain > 0; matrixRemain--)
             {
                 int remainBitTemp = matrixRemain + (maxCodewords * 8) - 1;
                 matrixContent[matrixX[remainBitTemp] & 0xFF][matrixY[remainBitTemp] & 0xFF] = (sbyte)(255 ^ maskArray[remainBitTemp]);
             }
 
             /* mask select*/
-            sbyte maskNumber = SelectMask(matrixContent, matrixRemainBit[qrcodeVersion] + maxCodewords * 8);
+            sbyte maskNumber = SelectMask(matrixContent, matrixRemainBit[QRCodeVersion] + maxCodewords * 8);
             sbyte maskContent = (sbyte)(1 << maskNumber);
 
             /* format information */

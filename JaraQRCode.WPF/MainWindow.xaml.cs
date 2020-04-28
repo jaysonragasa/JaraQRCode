@@ -1,6 +1,4 @@
-﻿using System.Drawing;
-using System.Drawing.Imaging;
-using System.IO;
+﻿using System.IO;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -13,7 +11,15 @@ namespace JaraQRCode.WPF
     /// </summary>
     public partial class MainWindow : Window
     {
-        JaraQRCode.QRCode qr = new QRCode();
+        JaraQRCode.QRCode qr = new QRCode()
+        {
+            //QRCodeBackgroundColor = Color.Black,              // leave it default (default: Black)
+            //QRCodeForegroundColor = Color.White,              // leave it default (default: White)
+            //QRCodeEncodeMode = QRCode.MODE.BYTE,              // leave it default (defalt: QRCode.MODE.BYTE)
+            //QRCodeErrorCorrect = QRCode.ERRORCORRECTION.M,    // leave it default (default: QRCode.ERRORCORRECTION.M)
+            //QRCodeScale = 4,                                  // leave it default (4)
+            //QRCodeVersion = 0                                 // leave it default (0)
+        };
 
         public MainWindow()
         {
