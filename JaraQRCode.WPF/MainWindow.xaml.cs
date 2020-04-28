@@ -1,4 +1,27 @@
-﻿using System.IO;
+﻿//███████░███░█░███████
+//█░░░░░█░░░██░░█░░░░░█
+//█░███░█░░██░░░█░███░█
+//█░███░█░█░░░█░█░███░█
+//█░███░█░█░███░█░███░█
+//█░░░░░█░███░█░█░░░░░█
+//███████░█░█░█░███████
+//░░░░░░░░█░█░░░░░░░░░░
+//█░░░█░███░█░██████░░█
+//█░█░█░░██░█░███░█░██░
+//░░██░███░█░░██░░█░██░
+//░░█░░█░██░░███░█░█░░░
+//█░░░█░██░░░█░██░░░░█░
+//░░░░░░░░██████░██░░█░
+//███████░█░░█░█░░█░░░░
+//█░░░░░█░░█░░░█░░██░░█
+//█░███░█░██░░███░░░░█░
+//█░███░█░░██░█░░░█░███
+//█░███░█░░█░░███░██░░░
+//█░░░░░█░░░░██░░█░░░░░
+//███████░█░░█░██░█░█░█
+
+
+using System.IO;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -15,7 +38,7 @@ namespace JaraQRCode.WPF
         {
             //QRCodeBackgroundColor = Color.Black,              // leave it default (default: Black)
             //QRCodeForegroundColor = Color.White,              // leave it default (default: White)
-            //QRCodeEncodeMode = QRCode.MODE.BYTE,              // leave it default (defalt: QRCode.MODE.BYTE)
+            //QRCodeEncodeMode = QRCode.MODE.BYTE,              // leave it default (default: QRCode.MODE.BYTE)
             //QRCodeErrorCorrect = QRCode.ERRORCORRECTION.M,    // leave it default (default: QRCode.ERRORCORRECTION.M)
             //QRCodeScale = 4,                                  // leave it default (4)
             //QRCodeVersion = 0                                 // leave it default (0)
