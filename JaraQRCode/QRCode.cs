@@ -936,6 +936,11 @@ namespace JaraQRCode
             return returnBuffer;
         }
 
+        public byte[] Generate(String content)
+        {
+            return Generate(content, Encoding.UTF8);
+        }
+
         public string GenerateQRCodeString(string content, Encoding encoding)
         {
             bool[][] matrix = CalQrcode(encoding.GetBytes(content));
@@ -960,10 +965,63 @@ namespace JaraQRCode
             return qrcodeinstring;
         }
 
-        public byte[] Generate(String content)
+        public Bitmap GenerateQRCodeImage(string content, Encoding encoding)
         {
-            return Generate(content, Encoding.UTF8);
+            bool[][] matrix = CalQrcode(encoding.GetBytes(content));
+
+            Image img = new Bitmap(
+                    (matrix.Length) * QRCodeScale,
+                    (matrix.Length) * QRCodeScale,
+                    PixelFormat.Format32bppArgb);
+
+            if (matrix.Length > 1)
+            {
+                Graphics gfx = Graphics.FromImage(img);
+                gfx.Clear(QRCodeBackgroundColor);
+
+                var color = QRCodeForegroundColor;
+                var a = color.A + 1;
+                var col = (color.A << 24)
+                   | ((byte)((color.R * a) >> 8) << 16)
+                   | ((byte)((color.G * a) >> 8) << 8)
+                   | ((byte)((color.B * a) >> 8));
+
+                for (int y = 0; y < matrix.Length; y++)
+                {
+                    for (int x = 0; x < matrix.Length; x++)
+                    {
+                        if (matrix[x][y])
+                        {
+                            //gfx.DrawRectangle(new Pen(
+                            //    new SolidBrush(
+                            //        Color.FromArgb(col)), 
+                            //        0.1f), 
+                            //    x * QRCodeScale, 
+                            //    y * QRCodeScale, 
+                            //    QRCodeScale, 
+                            //    QRCodeScale
+                            //);
+
+                            gfx.FillRectangle(new SolidBrush(
+                                    Color.FromArgb(col)),
+                                    x * QRCodeScale,
+                                    y * QRCodeScale,
+                                    QRCodeScale,
+                                    QRCodeScale
+                            );
+                        }
+                    }
+                }
+
+                MemoryStream ms = new MemoryStream();
+                img.Save(ms, ImageFormat.Png);
+
+                gfx.Dispose();
+            }
+
+            return (Bitmap)img;
         }
+
 
         internal Stream GetResourceFile(string fileName)
         {
